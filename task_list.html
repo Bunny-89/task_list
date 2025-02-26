@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List - Hackers Theme</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            background-color: black;
+            color: green;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: black;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px green;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            margin-right: 10px;
+            background: black;
+            color: green;
+            border: 1px solid green;
+        }
+        button {
+            padding: 10px;
+            cursor: pointer;
+            background-color: green;
+            color: black;
+            border: none;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: darkgreen;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            background: black;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid green;
+            color: green;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: darkgreen;
+        }
+        .confirm-box {
+            position: fixed;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background: black;
+            border: 1px solid green;
+            padding: 20px;
+            box-shadow: 0px 0px 10px green;
+            display: none;
+            text-align: right;
+        }
+        .confirm-box button {
+            padding: 10px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Task List</h2>
+        <input type="text" id="taskInput" placeholder="Enter a task...">
+        <button onclick="addTask()">Add</button>
+        <ul id="taskList"></ul>
+    </div>
+    
+    <div id="confirmBox" class="confirm-box">
+        <p>Do you want to mark this task as completed?</p>
+        <button onclick="confirmNo()">No</button>
+        <button onclick="confirmYes()">Yes</button>
+    </div>
+    
+    <script>
+        let currentTask = null;
+        
+        function addTask() {
+            let taskInput = document.getElementById("taskInput");
+            let taskText = taskInput.value.trim();
+            if (taskText === "") return;
+            
+            let li = document.createElement("li");
+            li.innerHTML = `<span>${taskText}</span> 
+                            <button onclick="showConfirmBox(this)">✔</button>`;
+            document.getElementById("taskList").appendChild(li);
+            taskInput.value = "";
+        }
+        
+        function showConfirmBox(button) {
+            currentTask = button.previousElementSibling;
+            document.getElementById("confirmBox").style.display = "block";
+        }
+        
+        function confirmYes() {
+            toggleTask(currentTask);
+            document.getElementById("confirmBox").style.display = "none";
+        }
+        
+        function confirmNo() {
+            document.getElementById("confirmBox").style.display = "none";
+        }
+        
+        function toggleTask(element) {
+            element.classList.toggle("completed");
+        }
+    </script>
+</body>
+</html>
